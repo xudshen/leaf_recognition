@@ -10,6 +10,6 @@ fea.process()
 features = fea.get_features()
 
 r = RedisBackend.RedisBackend()
-print r.get_image_id(file_path)
+print r.get_sample_id(file_path)
 r.set_features(file_path, features)
 print r.get_features(file_path)

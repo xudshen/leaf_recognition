@@ -1,13 +1,13 @@
 #! /usr/bin/python
 import cv2
 from matplotlib import pyplot as plt
-
+from leaf_recognition.utils.RedisBackend import RedisBackend
 
 class BaseFeatures:
     """base features"""
     _base_image = 'c'
 
-    def __init__(self, file_path):
+    def __init__(self, file_path, config={}):
         self.file_path = file_path
 
         if self._base_image == 'c':
@@ -22,7 +22,8 @@ class BaseFeatures:
         else:
             self.img = None
 
-        self.features = {}
+        self.backend = RedisBackend(config)
+        self.features = self.backend.get_features(self.file_path)
 
     def show(self, img=None):
         if img is None:
@@ -37,3 +38,6 @@ class BaseFeatures:
 
     def get_features(self):
         return self.features
+
+    def save(self):
+        return self.backend.set_features(self.file_path, self.features)

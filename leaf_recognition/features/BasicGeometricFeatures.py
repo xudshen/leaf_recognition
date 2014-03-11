@@ -2,6 +2,11 @@
 from BaseFeatures import BaseFeatures
 import cv2
 import numpy as np
+import math
+
+
+def distance(p0, p1):
+    return math.sqrt((p0[0] - p1[0]) ** 2 + (p0[1] - p1[1]) ** 2)
 
 
 class BasicGeometricFeatures(BaseFeatures):
@@ -24,14 +29,24 @@ class BasicGeometricFeatures(BaseFeatures):
         x, y, w, h = cv2.boundingRect(cont)
         #img = cv2.rectangle(self.img, (x, y), (x+w, y+h), (0, 255, 0), 2)
         #self.show(img)
+        leftmost = tuple(cont[cont[:, :, 0].argmin()][0])
+        rightmost = tuple(cont[cont[:, :, 0].argmax()][0])
+        topmost = tuple(cont[cont[:, :, 1].argmin()][0])
+        bottommost = tuple(cont[cont[:, :, 1].argmax()][0])
+
+        M = cv2.moments(cont)
+        #import pprint
+        #pprint.pprint(M)
 
         hull = cv2.convexHull(cont)
-        self.features = {
-            'Diameter': max(w, h),
+        self.features.update({
+            'Diameter': max(distance(leftmost, rightmost), distance(topmost, bottommost)),
             'Physiological Length': max(w, h),
             'Physiological Width': min(w, h),
             'Leaf Perimeter': cv2.arcLength(cont, True),
             'Leaf Area': cv2.contourArea(cont),
             'Convex Hull Perimeter': cv2.arcLength(hull, True),
-            'Convex Hull Area': cv2.contourArea(hull)
-        }
+            'Convex Hull Area': cv2.contourArea(hull),
+            'Centroid X': int(M['m10']/M['m00']),
+            'Centroid Y': int(M['m01']/M['m00'])
+        })
