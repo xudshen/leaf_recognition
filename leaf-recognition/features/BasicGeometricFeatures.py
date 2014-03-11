@@ -43,3 +43,4 @@ if __name__ == '__main__':
     fea = BasicGeometricFeatures('/home/xudshen/workspace/dataset/apple.jpg')
     fea.process()
     print fea.get_features()
+    #import leafRecognition.RedisBackend
