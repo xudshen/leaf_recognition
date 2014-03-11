@@ -10,7 +10,7 @@ class RedisBackend:
     _r_images_hmap = 'images.hmap'
     _r_features = 'images:%s:features'
 
-    def __init__(self, config):
+    def __init__(self, config={}):
         host = 'localhost'
         port = 6379
         db = 0
@@ -49,10 +49,10 @@ class RedisBackend:
             return False
         return self.r_cnn.hgetall(self._r_features % (image_id,))
 
-if __name__ == '__main__':
-    r = RedisBackend('')
-    print r.get_image_id('fd')
-    r.set_features('fd', {'k1':'v1', 'k2':'v2'})
-    r.set_features('xx', {'k1':'v1', 'k2':'v2'})
-    print r.get_features('fd')
+# if __name__ == '__main__':
+#     r = RedisBackend('')
+#     print r.get_image_id('fd')
+#     r.set_features('fd', {'k1':'v1', 'k2':'v2'})
+#     r.set_features('xx', {'k1':'v1', 'k2':'v2'})
+#     print r.get_features('fd')
 

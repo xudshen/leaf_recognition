@@ -22,8 +22,8 @@ class BasicGeometricFeatures(BaseFeatures):
         cont = contours[np.argmax(areas)]
 
         x, y, w, h = cv2.boundingRect(cont)
-        img = cv2.rectangle(self.img, (x, y), (x+w, y+h), (0, 255, 0), 2)
-        self.show(img)
+        #img = cv2.rectangle(self.img, (x, y), (x+w, y+h), (0, 255, 0), 2)
+        #self.show(img)
 
         hull = cv2.convexHull(cont)
         self.features = {
@@ -35,12 +35,3 @@ class BasicGeometricFeatures(BaseFeatures):
             'Convex Hull Perimeter': cv2.arcLength(hull, True),
             'Convex Hull Area': cv2.contourArea(hull)
         }
-
-
-if __name__ == '__main__':
-    #fea = BasicGeometricFeatures('/home/xudshen/workspace/dataset/Anhui Barberry/1553.jpg')
-    fea = BasicGeometricFeatures('/home/xudshen/workspace/dataset/camphortree/2166.jpg')
-    fea = BasicGeometricFeatures('/home/xudshen/workspace/dataset/apple.jpg')
-    fea.process()
-    print fea.get_features()
-    #import leafRecognition.RedisBackend
