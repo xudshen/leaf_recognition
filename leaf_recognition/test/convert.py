@@ -72,6 +72,10 @@ with open('leaf.arff', 'w') as arff:
 
             #arff.write(reduce(lambda a, b: a + ',' + b, features.values()))
             for k in feature_map:
-                arff.write(features[k] + ',')
+                if k == 'Hu04' or k == 'Hu05' or k == 'Hu06':
+                    #print features[k]
+                    arff.write(str(float(features[k]) * 100000) + ',')
+                else:
+                    arff.write(features[k] + ',')
             arff.write(species_id)
             arff.write('\n')
