@@ -5,12 +5,11 @@ import base64
 
 class RedisBackend:
     _r_sample_id = 'next.sample.id'
-
     _r_samples = 'samples'
     _r_samples_hmap = 'samples.hmap'
-    _r_sample_features = 'samples:%s:features'
+    _r_samples_features = 'samples:%s:features'
 
-    _r_species_id = 'next_species_id'
+    _r_species_id = 'next.species.id'
     _r_species = 'species'
     _r_species_hmap = 'species.hmap'
     _r_species_samples = 'species:%s:samples'
@@ -39,21 +38,28 @@ class RedisBackend:
                 return sample_id
         return None
 
-    def set_features(self, file_path, features):
-        sample_id = self.get_sample_id(file_path)
-        if sample_id is None:
-            return False
+    def set_features(self, sample_id, features):
+        #sample_id = self.get_sample_id(sample_path)
         with self.r_cnn.pipeline() as pipe:
             for k, v in features.iteritems():
                 pipe.hset(self._r_samples_features % (sample_id,), k, v)
             pipe.execute()
 
-    def get_features(self, file_path):
-        sample_id = self.get_sample_id(file_path)
-        if sample_id is None:
-            return False
+    def get_features(self, sample_id):
         return self.r_cnn.hgetall(self._r_samples_features % (sample_id,))
 
     def get_species_id(self, species_name):
         if self.r_cnn.hexists(self._r_species_hmap, species_name):
             return self.r_cnn.hget(self._r_species_hmap, species_name)
+        else:
+            species_id = self.r_cnn.incr(self._r_species_id)
+            if self.r_cnn.hset(self._r_species_hmap, species_name, species_id) == 1:
+                self.r_cnn.lpush(self._r_species, species_id)
+                return species_id
+        return None
+
+    def add_samples(self, species_id, sample_id):
+        return self.r_cnn.lpush(self._r_species_samples % (species_id,), sample_id)
+
+    def get_samples(self, species_id):
+        return self.r_cnn.lrange(self._r_species_samples % (species_id,), 0, -1)

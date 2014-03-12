@@ -13,8 +13,8 @@ class BasicGeometricFeatures(BaseFeatures):
     """basic geometric features"""
     _base_image = 'b'
 
-    def __init__(self, file_path):
-        BaseFeatures.__init__(self, file_path)
+    def __init__(self, sample_path, species_name):
+        BaseFeatures.__init__(self, sample_path, species_name)
 
     def process(self):
         # print self.img.shape
@@ -34,9 +34,9 @@ class BasicGeometricFeatures(BaseFeatures):
         topmost = tuple(cont[cont[:, :, 1].argmin()][0])
         bottommost = tuple(cont[cont[:, :, 1].argmax()][0])
 
-        M = cv2.moments(cont)
+        moments = cv2.moments(cont)
         #import pprint
-        #pprint.pprint(M)
+        #pprint.pprint(moments)
 
         hull = cv2.convexHull(cont)
         self.features.update({
@@ -47,6 +47,6 @@ class BasicGeometricFeatures(BaseFeatures):
             'Leaf Area': cv2.contourArea(cont),
             'Convex Hull Perimeter': cv2.arcLength(hull, True),
             'Convex Hull Area': cv2.contourArea(hull),
-            'Centroid X': int(M['m10']/M['m00']),
-            'Centroid Y': int(M['m01']/M['m00'])
+            'Centroid X': int(moments['m10']/moments['m00']),
+            'Centroid Y': int(moments['m01']/moments['m00'])
         })

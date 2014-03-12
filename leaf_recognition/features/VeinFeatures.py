@@ -7,8 +7,8 @@ class VeinFeatures(BaseFeatures):
     """basic geometric features"""
     _base_image = 'g'
 
-    def __init__(self, file_path):
-        BaseFeatures.__init__(self, file_path)
+    def __init__(self, sample_path, species_name):
+        BaseFeatures.__init__(self, sample_path, species_name)
 
     def process(self):
         kernel = np.ones((50,50),np.uint8)
