@@ -35,6 +35,7 @@ class BasicGeometricFeatures(BaseFeatures):
         bottommost = tuple(cont[cont[:, :, 1].argmax()][0])
 
         moments = cv2.moments(cont)
+        hu = cv2.HuMoments(moments)
         #import pprint
         #pprint.pprint(moments)
 
@@ -48,5 +49,19 @@ class BasicGeometricFeatures(BaseFeatures):
             'Convex Hull Perimeter': cv2.arcLength(hull, True),
             'Convex Hull Area': cv2.contourArea(hull),
             'Centroid X': int(moments['m10']/moments['m00']),
-            'Centroid Y': int(moments['m01']/moments['m00'])
+            'Centroid Y': int(moments['m01']/moments['m00']),
+            'Hu00': hu[0][0],
+            'Hu01': hu[1][0],
+            'Hu02': hu[2][0],
+            'Hu03': hu[3][0],
+            'Hu04': hu[4][0],
+            'Hu05': hu[5][0],
+            'Hu06': hu[6][0],
+            'nu20': moments['nu20'],
+            'nu11': moments['nu11'],
+            'nu02': moments['nu02'],
+            'nu30': moments['nu30'],
+            'nu21': moments['nu21'],
+            'nu12': moments['nu12'],
+            'nu03': moments['nu03'],
         })
