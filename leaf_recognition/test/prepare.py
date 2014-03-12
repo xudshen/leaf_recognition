@@ -15,3 +15,13 @@ for species_name in dirs:
         extractor = BasicGeometricFeatures.BasicGeometricFeatures(sample_path, species_name)
         extractor.process()
         extractor.save()
+
+for species_name in dirs:
+    species_path = base_path + '/' + species_name
+    print 'process(%s)...' % (species_name)
+    for sample_name in os.listdir(species_path):
+        sample_path = species_path + '/' + sample_name
+
+        extractor = MorphologicalFeatures.MorphologicalFeatures(sample_path, species_name)
+        extractor.process()
+        extractor.save()

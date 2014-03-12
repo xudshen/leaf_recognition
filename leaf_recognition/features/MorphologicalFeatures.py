@@ -20,7 +20,7 @@ class MorphologicalFeatures(BaseFeatures):
         self.features.update({
             'Aspect ratio': Lp / Wp,
             'Form factor': 4 * math.pi * A / P**2,
-            'Rectangualarity': Lp * Wp / A,
+            'Rectangularity': Lp * Wp / A,
             'Narrow factor': D / Lp,
             'Perimeter radio of diameter': P / D,
             'Perimeter ratio of physiological': P / (Lp + Wp),

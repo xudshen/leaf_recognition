@@ -17,7 +17,7 @@ class RedisBackend:
     def __init__(self, config={}):
         host = 'localhost'
         port = 6379
-        db = 0
+        db = 14
         if 'host' in config:
             host = config['host']
         if 'port' in config:
@@ -58,8 +58,13 @@ class RedisBackend:
                 return species_id
         return None
 
+    def get_species(self):
+        return self.r_cnn.lrange(self._r_species, 0, -1)
+
     def add_samples(self, species_id, sample_id):
-        return self.r_cnn.lpush(self._r_species_samples % (species_id,), sample_id)
+        return self.r_cnn.sadd(self._r_species_samples % (species_id,), sample_id)
 
     def get_samples(self, species_id):
-        return self.r_cnn.lrange(self._r_species_samples % (species_id,), 0, -1)
+        return self.r_cnn.smembers(self._r_species_samples % (species_id,))
+
+
