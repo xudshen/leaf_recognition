@@ -4,17 +4,22 @@ leaf-recognition
 for paper
 
 ##requirment
-- matlab
+- weka
 - opencv
 - python
 
 ##algorithm
-- libsvm
+- bayesNet
 
 ##dataset
 The leaf dataset is supported by [flavia]. 
 You can download the complete raw [flavia dataset].
 
+##predict
+```
+export CLASSPATH=/usr/share/java/weka.jar:.
+java weka.classifiers.bayes.BayesNet -l Desktop/leaf.model -T Desktop/leaf.arff -p 0
+```
 
 [flavia]:http://flavia.sourceforge.net/
 [flavia dataset]:https://sourceforge.net/projects/flavia/files/Leaf%20Image%20Dataset/1.0/Leaves.tar.bz2/download
