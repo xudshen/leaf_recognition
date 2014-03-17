@@ -36,6 +36,7 @@ var PageTransitions = (function () {
 //            if (animcursor > 67) {
 //                animcursor = 1;
 //            }
+
             animcursor = 1;
             nextPage(animcursor);
             ++animcursor;
@@ -57,6 +58,17 @@ var PageTransitions = (function () {
         }
         var $nextPage = $pages.eq(current).addClass('pt-page-current'),
             outClass = '', inClass = '';
+
+
+        var list = ['pubescent bamboo', 'Japanese maple', 'sweet osmanthus']
+        $.get("/api/species/" + list[current], function( data ) {
+            if (data.trim()) {
+                $('#info_body').html(data);
+            }
+            else $('#info_body').html("can not find info");
+            $('#info_title').html(list[current]);
+        });
+
 
         switch (animation) {
 

@@ -58,5 +58,14 @@ $(function() {
             $('#iterateEffects').click();
         });
 
+        if (document.title.indexOf('Predict') >= 0){
+            $.get("/api/species/" + document.title.substring(9), function( data ) {
+                if (data.trim()) {
+                    $('#info_body').html(data);
+                }
+                else $('#info_body').html("can not find info");
+            });
+        }
+
     });
 });

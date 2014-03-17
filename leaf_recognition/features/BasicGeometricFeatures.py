@@ -16,7 +16,7 @@ class BasicGeometricFeatures(BaseFeatures):
     def __init__(self, sample_path, species_name):
         BaseFeatures.__init__(self, sample_path, species_name)
 
-    def process(self):
+    def process(self, predict=False, predict_path=None):
         # print self.img.shape
         # get contours
         img_cont = cv2.bitwise_not(self.img)
@@ -28,18 +28,37 @@ class BasicGeometricFeatures(BaseFeatures):
 
         x, y, w, h = cv2.boundingRect(cont)
         #img = cv2.rectangle(self.img, (x, y), (x+w, y+h), (0, 255, 0), 2)
+        if predict:
+            tmp = cv2.imread(self.sample_path)
+            cv2.rectangle(tmp, (x, y), (x+w, y+h), (0, 0, 255), 5)
+            cv2.imwrite(predict_path + 'Physiological.jpg', tmp)
         #self.show(img)
         leftmost = tuple(cont[cont[:, :, 0].argmin()][0])
         rightmost = tuple(cont[cont[:, :, 0].argmax()][0])
         topmost = tuple(cont[cont[:, :, 1].argmin()][0])
         bottommost = tuple(cont[cont[:, :, 1].argmax()][0])
 
+        tmp = cv2.imread(self.sample_path)
+        if predict:
+            cv2.line(tmp, leftmost, rightmost, (0, 0, 255), 5)
+            cv2.line(tmp, topmost, bottommost, (0, 0, 255), 5)
+            cv2.imwrite(predict_path + 'Diameter.jpg', tmp)
+
         moments = cv2.moments(cont)
         hu = cv2.HuMoments(moments)
+        if predict:
+            tmp = cv2.imread(self.sample_path)
+            cv2.drawContours(tmp, [cont], 0, (0, 0, 255), 5)
+            cv2.imwrite(predict_path + 'Contours.jpg', tmp)
         #import pprint
         #pprint.pprint(moments)
 
         hull = cv2.convexHull(cont)
+        if predict:
+            tmp = cv2.imread(self.sample_path)
+            cv2.drawContours(tmp, [hull], 0, (0, 0, 255), 5)
+            cv2.imwrite(predict_path + 'Convex.jpg', tmp)
+
         self.features.update({
             'Diameter': max(distance(leftmost, rightmost), distance(topmost, bottommost)),
             'Physiological Length': max(w, h),
@@ -48,8 +67,8 @@ class BasicGeometricFeatures(BaseFeatures):
             'Leaf Area': cv2.contourArea(cont),
             'Convex Hull Perimeter': cv2.arcLength(hull, True),
             'Convex Hull Area': cv2.contourArea(hull),
-            'Centroid X': int(moments['m10']/moments['m00']),
-            'Centroid Y': int(moments['m01']/moments['m00']),
+            'Centroid X': int(moments['m10'] / moments['m00']),
+            'Centroid Y': int(moments['m01'] / moments['m00']),
             'Hu00': hu[0][0],
             'Hu01': hu[1][0],
             'Hu02': hu[2][0],

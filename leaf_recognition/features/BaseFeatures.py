@@ -33,7 +33,7 @@ class BaseFeatures:
         if img is None:
             plt.imshow(self.img, cmap='gray', interpolation='bicubic')
         else:
-            plt.imshow(img, cmap='gray', interpolation='bicubic')
+            plt.imshow(img)
         plt.xticks([]), plt.yticks([])
         plt.show()
 

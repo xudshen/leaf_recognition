@@ -4,6 +4,8 @@
 extends layout
 
 block content
+    div#predict_name(style="display:none")=predict_name
+
     div#pt-main.pt-perspective(style="position:fixed; top:0; left:0;z-index:-1")
         div.pt-page.pt-page-1
         div.pt-page.pt-page-2
@@ -21,35 +23,34 @@ block content
                         div.col-md-12
                             h2.panel-title.pull-left Uploaded Sample
                 div.panel-body
-                    h3 Features
+                    h3 Geometric Features
                     ul.row.feature
                         li.col-lg-2.col-md-2.col-sm-3.col-xs-4
-                            img.img-responsive(src='/img/predict/1001.jpg', name="asfasdfasf")
-                            div feature 1
+                            img.img-responsive(src='/img/predict/' + jobid +'_Diameter.jpg', name="Diameter")
+                            div Diameter
                         li.col-lg-2.col-md-2.col-sm-3.col-xs-4
-                            img.img-responsive(src='/img/predict/1001.jpg')
-                            div feature 1
+                            img.img-responsive(src='/img/predict/' + jobid +'_Physiological.jpg', name="Physiological")
+                            div Physiological
                         li.col-lg-2.col-md-2.col-sm-3.col-xs-4
-                            img.img-responsive(src='/img/predict/1001.jpg', name="asfasdfasf")
-                            div feature 1
+                            img.img-responsive(src='/img/predict/' + jobid +'_Contours.jpg', name="Contours")
+                            div Contours
                         li.col-lg-2.col-md-2.col-sm-3.col-xs-4
-                            img.img-responsive(src='/img/predict/1001.jpg')
-                            div feature 1
-                        li.col-lg-2.col-md-2.col-sm-3.col-xs-4
-                            img.img-responsive(src='/img/predict/1001.jpg', name="asfasdfasf")
-                            div feature 1
-                        li.col-lg-2.col-md-2.col-sm-3.col-xs-4
-                            img.img-responsive(src='/img/predict/1001.jpg')
-                            div feature 1
-                        li.col-lg-2.col-md-2.col-sm-3.col-xs-4
-                            img.img-responsive(src='/img/predict/1001.jpg', name="asfasdfasf")
-                            div feature 1
-                        li.col-lg-2.col-md-2.col-sm-3.col-xs-4
-                            img.img-responsive(src='/img/predict/1001.jpg')
-                            div feature 1
+                            img.img-responsive(src='/img/predict/' + jobid +'_Convex.jpg', name="Convex")
+                            div Convex
+                    h3 Morphological Features
+                    div.table-responsive
+                        table.table
+                            thead
+                                tr
+                                    th Features
+                                    th Values
+                            tbody
+                                each val, key in features
+                                    tr
+                                        td #{key}
+                                        td #{val}
                 div.panel-body
                     h3 Models
-                    div Common Names in Chinese: Mao Zhu
 
 
         div.col-md-4
@@ -57,10 +58,10 @@ block content
                 div.panel-heading
                     div.row
                         div.col-md-12
-                            h2.panel-title.pull-left
+                            h2.panel-title.pull-left(style="text-transform : capitalize")
                                 span(style="color: #999") Match:&nbsp;
-                                | Genus Phyllostachys
-                div.panel-body
+                                | #{predict_name}
+                div.panel-body#info_body
                     h3 Common Names
                     div Common Names in Chinese: Mao Zhu
                     div Common Names in English: Pubescent Bamboo, Kikko-Chiku, Mhousou, Moso Bamboo, Mosochiku, Tortoise Shell Bamboo, Tortoise-Shell Bamboo

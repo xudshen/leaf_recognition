@@ -58,6 +58,12 @@ class RedisBackend:
                 return species_id
         return None
 
+    def get_species_name(self, species_id):
+        for (k, v) in self.r_cnn.hgetall(self._r_species_hmap).items():
+            if v == str(species_id):
+                return k
+        return ""
+
     def get_species(self):
         return self.r_cnn.lrange(self._r_species, 0, -1)
 
