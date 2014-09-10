@@ -3,6 +3,14 @@ leaf-recognition
 
 for paper
 
+##screenshots
+###home
+![app1](https://raw.githubusercontent.com/xudshen/leaf_recognition/master/webapp/files/app1.png)
+###search
+![app2](https://raw.githubusercontent.com/xudshen/leaf_recognition/master/webapp/files/app2.png)
+###predict
+![app3](https://raw.githubusercontent.com/xudshen/leaf_recognition/master/webapp/files/app3.png)
+
 ##requirment
 - weka
 - opencv
